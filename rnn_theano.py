@@ -61,9 +61,12 @@ class RNNTheano:
                               (self.W, self.W - learning_rate * dW)])
     
     def calculate_total_loss(self, X, Y):
-        return np.sum([self.ce_error(x,y) for x,y in zip(X,Y)])
+	    return np.sum([self.ce_error(x,y) for x,y in zip(X,Y)])
     
     def calculate_loss(self, X, Y):
+        print "calculate_loss self, " 
+        print X 
+        print Y
         # Divide calculate_loss by the number of words
         num_words = np.sum([len(y) for y in Y])
         return self.calculate_total_loss(X,Y)/float(num_words)   

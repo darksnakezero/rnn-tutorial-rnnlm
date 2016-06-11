@@ -35,7 +35,7 @@ def train_with_sgd(model, X_train, y_train, learning_rate=0.005, nepoch=1, evalu
                 print "Setting learning rate to %f" % learning_rate
             sys.stdout.flush()
             # ADDED! Saving model oarameters
-            save_model_parameters_theano("./data/rnn-theano-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
+            save_model_parameters_theano("./data/rnn-theano-german-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
         # For each training example...
         for i in range(len(y_train)):
             # One SGD step
@@ -49,15 +49,22 @@ sentence_end_token = "SENTENCE_END"
 
 # Read the data and append SENTENCE_START and SENTENCE_END tokens
 print "Reading CSV file..."
-with open('data/reddit-comments-2015-08.csv', 'rb') as f:
-    reader = csv.reader(f, skipinitialspace=True)
-    reader.next()
+with open('data/gutenberg_rainer_mairia_rilke_TagoreRabindranath_JosephineSiebe_JakobWassermann.txt', 'rb') as f:
+    reader = f.read()
+    #reader.next()
     # Split full comments into sentences
-    sentences = itertools.chain(*[nltk.sent_tokenize(x[0].decode('utf-8').lower()) for x in reader])
+    sentences = itertools.chain(*[nltk.sent_tokenize(reader.decode('utf-8').lower())])
     # Append SENTENCE_START and SENTENCE_END
     sentences = ["%s %s %s" % (sentence_start_token, x, sentence_end_token) for x in sentences]
 print "Parsed %d sentences." % (len(sentences))
-    
+
+'''
+f=open('data/gutenberg_rainer_mairia_rilke_TagoreRabindranath_JosephineSiebe_JakobWassermann.txt', 'rb')
+reader = f.read()
+reader.next()
+sentences = itertools.chain(*[nltk.sent_tokenize(x[0].decode('utf-8').lower()) for x in reader])
+'''
+
 # Tokenize the sentences into words
 tokenized_sentences = [nltk.word_tokenize(sent) for sent in sentences]
 
